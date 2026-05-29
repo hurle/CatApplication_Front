@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { CatSearch } from './features/cat-search/cat-search';
 
 export const routes: Routes = [
     // defines the path for catSearch view
