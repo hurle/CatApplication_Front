@@ -44,3 +44,12 @@ export interface Breed {
   short_legs: number;
   hypoallergenic: number;
 }
+
+// Interface for get cat images API response
+export interface CatImage {
+  breeds: Breed[];
+  id: string;
+  url: string;
+  width: number;
+  height: number;
+}

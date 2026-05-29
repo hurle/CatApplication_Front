@@ -1,7 +1,7 @@
 <div>
     <h2>Cat Search</h2>
     <!-- Form to search for cats by breed -->
-    <form [formGroup]="searchCatForm" class="cat-search-form">
+    <form [formGroup]="searchCatForm" class="cat-search-form" (ngSubmit)="onSearch()">
         <div class="form-group">
             <label for="breedId">Breed:</label>
             <!-- Select dropdown for cat breeds -->
@@ -14,6 +14,14 @@
                     </option>
                 }
             </select>
+
+            <label for="limit">Number of Images:</label>
+            <!-- Input for number of images to fetch -->
+            <input id="limit" type="number" formControlName="limit" class="form-control" min="1" max="100" />
+
+            <button type="submit" class="btn btn-primary" [disabled]="searchCatForm.invalid">Search</button>
+            <button type="button" (click)="CleanSearch()" class="btn btn-secondary">Clear</button>
         </div>
     </form>
+    <app-cat-grid [images]="(catImages$ | async) || []" [isLoading]="isloading"></app-cat-grid>
 </div>
