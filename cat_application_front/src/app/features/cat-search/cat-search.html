@@ -1,0 +1,19 @@
+<div>
+    <h2>Cat Search</h2>
+    <!-- Form to search for cats by breed -->
+    <form [formGroup]="searchCatForm" class="cat-search-form">
+        <div class="form-group">
+            <label for="breedId">Breed:</label>
+            <!-- Select dropdown for cat breeds -->
+            <select id="breedId" formControlName="breedId" class="form-control">
+                <option value="">Select a breed</option>
+                <!-- Options form breeds endpoint -->
+                @for (breed of breeds$ | async; track breed.id) {
+                    <option [value]="breed.id">
+                        {{ breed.name }}
+                    </option>
+                }
+            </select>
+        </div>
+    </form>
+</div>
