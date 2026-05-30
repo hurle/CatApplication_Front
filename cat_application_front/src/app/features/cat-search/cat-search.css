@@ -30,3 +30,7 @@ input[type="number"] {
   -moz-appearance: textfield;
   appearance: textfield;
 }
+
+.errorMsg{
+    @apply text-xs text-red-500
+}

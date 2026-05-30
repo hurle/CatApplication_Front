@@ -3,9 +3,10 @@ import { CatService } from '../../core/services/cat.service';
 import { Breed, CatImage } from '../../core/models/cat.model';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, catchError, Observable, switchMap, tap, of } from 'rxjs';
 import { CatGrid } from '../../shared/components/cat-grid/cat-grid';
 import { OnlyNumbersDirective } from '../../shared/directives/only-numbers';
+
 
 
 @Component({
@@ -19,6 +20,7 @@ import { OnlyNumbersDirective } from '../../shared/directives/only-numbers';
 export class CatSearch implements OnInit {
   private catService = inject(CatService); // Inject cat service
   private formBuilder = inject(FormBuilder); // Inject FormBuilder
+  errorMessage:string | null = null
   
   private searchTrigger$ = new BehaviorSubject<{ // Trigger forcat search
     breedId: string;
@@ -31,6 +33,7 @@ export class CatSearch implements OnInit {
 
   isloading = false; // Loading state for API calls (!!NO USED NOW!!)
   isEmpty = true; // State to check if the search result is empty
+  
 
   ngOnInit() : void {
     this.initForm(); // Initialize the search form
@@ -42,9 +45,18 @@ export class CatSearch implements OnInit {
         if (!searchParams) return ([]);
         
         this.isloading = true;
+        this.searchCatForm.disable();
         
         return this.catService.getCatsByFilters(searchParams.breedId, searchParams.limit).pipe(
-          tap(() => this.isloading = false)
+          tap(() => {
+            this.isloading = false
+            this.searchCatForm.enable();
+          }),
+          catchError<any[], Observable<any[]>>((error) => {
+            console.log('Error: ', error)
+            return of([]);
+          })  
+        
         );
       })
     );
@@ -52,7 +64,7 @@ export class CatSearch implements OnInit {
 
   private initForm(): void {
     this.searchCatForm = this.formBuilder.group({ // Form validations
-      breedId: ['', Validators.required],
+      breedId: ['', Validators.required ],
       limit: [5, [Validators.required, Validators.min(1), Validators.max(100)]]
     });
   }
@@ -60,11 +72,14 @@ export class CatSearch implements OnInit {
   // handle search form
   onSearch(): void {
     if (this.searchCatForm.invalid  ) {
+      this.searchCatForm.markAllAsTouched();
       return; // If form is invalid, do not proceed
     }
 
     this.isloading = true; // Set loading state to true
     this.isEmpty = true; // Reset empty state
+    this.searchCatForm.disable();
+    this.errorMessage=null;
 
     const breedId = this.searchCatForm.get('breedId')?.value; // Get selected breed ID from form
     const limit = this.searchCatForm.get('limit')?.value; // Get selected limit from form
@@ -74,5 +89,9 @@ export class CatSearch implements OnInit {
 
   CleanSearch(): void {
     window.location.reload();
+  }
+
+  get fail(){
+    return this.searchCatForm.controls;
   }
 }
