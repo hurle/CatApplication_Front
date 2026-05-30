@@ -3,12 +3,12 @@
 } @else if (isLoading === false && images.length === 0) {
   <p>No cats found.</p>
 } @else {
-    <div class="cats-grid">
+    <div class="grid grid-cols-1 md:grid-cols-3 xl:grid-cols-5 gap-4 p-4">
         @for (image of images; track image.id) {
-            <div class="cat-card">
-                <img [src]="image.url" [alt]="image.breeds[0]?.description || 'Cat'" class="cat-image" loading="lazy"/>
-                <div class="cat-card-info">
-                    <span>ID: {{ image.id }}</span>
+
+            <div class="cat-image-parent">
+                <div class="cat-image-child">
+                    <img [src]="image.url" [alt]="image.breeds[0]?.description || 'Cat'" class="cat-image"/>
                 </div>
             </div>
         }

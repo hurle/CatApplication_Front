@@ -1,0 +1,11 @@
+@import "tailwindcss";
+
+.cat-image-parent{
+    @apply bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden hover:shadow-md transition-all duration-300
+}
+.cat-image-child{
+    @apply aspect-square w-full bg-gray-100 overflow-hidden relative
+}
+.cat-image{
+    @apply w-full h-full object-cover group-hover:scale-105 transition-transform duration-500
+}
