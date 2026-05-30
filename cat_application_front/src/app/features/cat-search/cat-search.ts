@@ -73,8 +73,6 @@ export class CatSearch implements OnInit {
   }
 
   CleanSearch(): void {
-    this.searchCatForm.reset(); // Reset the search form
-    this.isEmpty = true; // Reset empty state
-    this.searchTrigger$.next(null); // Clear search results
+    window.location.reload();
   }
 }

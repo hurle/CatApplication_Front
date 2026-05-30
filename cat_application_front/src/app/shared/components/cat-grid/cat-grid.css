@@ -9,3 +9,9 @@
 .cat-image{
     @apply w-full h-full object-cover group-hover:scale-105 transition-transform duration-500
 }
+.parent-label{
+    @apply text-center py-12
+}
+.label-loading{
+    @apply text-gray-400 text-sm
+}
