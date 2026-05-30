@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { BehaviorSubject, Observable, switchMap, tap } from 'rxjs';
 import { CatGrid } from '../../shared/components/cat-grid/cat-grid';
+import { OnlyNumbersDirective } from '../../shared/directives/only-numbers';
 
 
 @Component({
   selector: 'app-cat-search',
-  imports: [CommonModule, ReactiveFormsModule, CatGrid],
+  imports: [CommonModule, ReactiveFormsModule, CatGrid, OnlyNumbersDirective],
   templateUrl: './cat-search.html',
   styleUrl: './cat-search.css',
   standalone: true,
